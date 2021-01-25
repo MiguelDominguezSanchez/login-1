@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Login from './components/Login';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -11,7 +12,9 @@ function App() {
 					<Route path="/" exact>
 						inicio...
 					</Route>
-					<Route path="/login">login...</Route>
+					<Route path="/login">
+						<Login />
+					</Route>
 					<Route path="/admin">admin...</Route>
 				</Switch>
 			</div>
