@@ -3,21 +3,26 @@ import React from 'react';
 const Login = () => {
 	const [email, setEmail] = React.useState('');
 	const [pass, setPass] = React.useState('');
+	const [error, setError] = React.useState(null);
 
 	const procesarDatos = (e) => {
 		e.preventDefault();
 		if (!email.trim()) {
-			console.log('Ingrese Email');
+			// console.log('Ingrese Email');
+			setError('Ingrese Email');
 			return;
 		}
 		if (!pass.trim()) {
-			console.log('Ingrese Password');
+			// console.log('Ingrese Password');
+			setError('Ingrese Password');
 			return;
 		}
 		if (pass.length < 6) {
-			console.log('Password mayor a 6 carácters');
+			// console.log('Password mayor a 6 caracters');
+			setError('Password de 6 caracters o más');
 			return;
 		}
+		setError(null);
 		console.log('Pasando todas las validaciones');
 	};
 
@@ -28,6 +33,7 @@ const Login = () => {
 			<div className="row justify-content-center">
 				<div className="col-12 col-sm-8 col-md-6 col-xl-4">
 					<form onSubmit={procesarDatos}>
+						{error && <div className="alert alert-danger">{error}</div>}
 						<input
 							type="email"
 							className="form-control mb-2"
