@@ -4,6 +4,7 @@ const Login = () => {
 	const [email, setEmail] = React.useState('');
 	const [pass, setPass] = React.useState('');
 	const [error, setError] = React.useState(null);
+	const [esRegistro, setEsRegistro] = React.useState(true);
 
 	const procesarDatos = (e) => {
 		e.preventDefault();
@@ -28,7 +29,9 @@ const Login = () => {
 
 	return (
 		<div className="mt-5">
-			<h3 className="text-center">Registro de tareas</h3>
+			<h3 className="text-center">
+				{esRegistro ? 'Registro de usuarios' : 'Login de acceso'}
+			</h3>
 			<hr />
 			<div className="row justify-content-center">
 				<div className="col-12 col-sm-8 col-md-6 col-xl-4">
@@ -48,9 +51,15 @@ const Login = () => {
 							onChange={(e) => setPass(e.target.value)}
 							value={pass}
 						/>
-						<button className="btn-dark btn-lg btn-block">Registrase</button>
-						<button className="btn btn-info btn-sm btn-block">
-							¿Ya tiene cuenta?
+						<button className="btn-dark btn-lg btn-block" type="submit">
+							{esRegistro ? 'Registrase' : 'Acceder'}
+						</button>
+						<button
+							className="btn btn-info btn-sm btn-block"
+							onClick={() => setEsRegistro(!esRegistro)}
+							type="button"
+						>
+							{esRegistro ? '¿Ya estas registrado?' : '¿No tienes cuenta?'}
 						</button>
 					</form>
 				</div>
