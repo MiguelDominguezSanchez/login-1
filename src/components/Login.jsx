@@ -1,4 +1,5 @@
 import React from 'react';
+import { auth } from '../firebase';
 
 const Login = () => {
 	const [email, setEmail] = React.useState('');
@@ -23,14 +24,30 @@ const Login = () => {
 			setError('Password de 6 caracters o más');
 			return;
 		}
+		console.log('correcto...');
 		setError(null);
-		console.log('Pasando todas las validaciones');
+
+		if (esRegistro) {
+			registrar();
+		}
 	};
+
+	const registrar = React.useCallback(async () => {
+		try {
+			const res = await auth.createUserWithEmailAndPassword(email, pass);
+			console.log(res.user);
+		} catch (error) {
+			// console.log(error);
+			// if (error.code === 'auth/invalid-email') setError('Email no valido');
+		}
+		// if (error.code === 'auth/email-already-in-use')
+		// 	setError('Email ya utilizado');
+	}, [email, pass]);
 
 	return (
 		<div className="mt-5">
 			<h3 className="text-center">
-				{esRegistro ? 'Registro de usuarios' : 'Login de acceso'}
+				{esRegistro ? 'Registro' : 'Login de acceso'}
 			</h3>
 			<hr />
 			<div className="row justify-content-center">
@@ -52,7 +69,7 @@ const Login = () => {
 							value={pass}
 						/>
 						<button className="btn-dark btn-lg btn-block" type="submit">
-							{esRegistro ? 'Registrase' : 'Acceder'}
+							{esRegistro ? 'Registrar' : 'Acceder'}
 						</button>
 						<button
 							className="btn btn-info btn-sm btn-block"
