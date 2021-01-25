@@ -5,7 +5,7 @@ const Login = () => {
 	const [email, setEmail] = React.useState('');
 	const [pass, setPass] = React.useState('');
 	const [error, setError] = React.useState(null);
-	const [esRegistro, setEsRegistro] = React.useState(true);
+	const [esRegistro, setEsRegistro] = React.useState(false);
 
 	const procesarDatos = (e) => {
 		e.preventDefault();
@@ -29,8 +29,28 @@ const Login = () => {
 
 		if (esRegistro) {
 			registrar();
+		} else {
+			Login();
 		}
 	};
+
+	const login = React.useCallback(async () => {
+		try {
+			const res = await auth.signInWithEmailAndPassword();
+			console.log(res.users);
+		} catch (error) {
+			console.log(error);
+			if (error.code === 'auth/invalid-email') {
+				setError('Email no valido');
+			}
+			if (error.code === 'auth/user-not-found') {
+				setError('Email no registrado');
+			}
+			if (error.code === 'auth/user-not-password') {
+				setError('Contraseña incorrecta');
+			}
+		}
+	}, []);
 
 	const registrar = React.useCallback(async () => {
 		try {
@@ -52,9 +72,7 @@ const Login = () => {
 
 	return (
 		<div className="mt-5">
-			<h3 className="text-center">
-				{esRegistro ? 'Registro' : 'Login de acceso'}
-			</h3>
+			<h3 className="text-center">{esRegistro ? 'Registro' : 'Login'}</h3>
 			<hr />
 			<div className="row justify-content-center">
 				<div className="col-12 col-sm-8 col-md-6 col-xl-4">
