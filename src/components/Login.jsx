@@ -1,7 +1,8 @@
 import React from 'react';
 import { auth, db } from '../firebase';
+import { withRouter } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
 	const [email, setEmail] = React.useState('');
 	const [pass, setPass] = React.useState('');
 	const [error, setError] = React.useState(null);
@@ -38,6 +39,10 @@ const Login = () => {
 		try {
 			const res = await auth.signInWithEmailAndPassword();
 			console.log(res.users);
+			setEmail('');
+			setPass('');
+			setError(null);
+			props.history.push('/admin');
 		} catch (error) {
 			console.log(error);
 			if (error.code === 'auth/invalid-email') {
@@ -50,7 +55,7 @@ const Login = () => {
 				setError('Contraseña incorrecta');
 			}
 		}
-	}, []);
+	}, [email, pass, props.history]);
 
 	const registrar = React.useCallback(async () => {
 		try {
@@ -59,9 +64,6 @@ const Login = () => {
 				email: res.user.email,
 				uid: res.user.uid,
 			});
-			setEmail('');
-			setPass('');
-			setError(null);
 		} catch (error) {
 			// console.log(error);
 			// if (error.code === 'auth/invalid-email') setError('Email no valido');
@@ -109,4 +111,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default withRouter(Login);
