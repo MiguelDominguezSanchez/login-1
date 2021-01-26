@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Admin from './components/Admin';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 
@@ -15,7 +16,9 @@ function App() {
 					<Route path="/login">
 						<Login />
 					</Route>
-					<Route path="/admin">admin...</Route>
+					<Route path="/admin">
+						<Admin />
+					</Route>
 				</Switch>
 			</div>
 		</Router>
